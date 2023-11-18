@@ -1,0 +1,16 @@
+<div id="favorite">
+        <%# Condicional para que dependiendo si es o no fav, muestre una cosa u otra %>
+    <% if product.favorite %>
+    <%= link_to 'Quitar Fav', favorite_path(product.id), data: {
+        turbo_method: :delete,
+        turbo_confirm: '¿Quieres quitarlo de favoritos?'
+    } %>
+        <% else %>
+    <%= link_to 'Añadir Fav', favorites_path(product_id: product.id), data: {
+        turbo_method: :post,
+        turbo_confirm: '¿Añadir a Fav?'
+    } %>
+    <% end %>
+
+    <%# Para añadir a favoritos %>
+</div>

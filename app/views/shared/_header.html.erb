@@ -1,0 +1,54 @@
+<nav class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 bg-gray-900">
+      <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+        <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+          <a
+            class="text-lg font-bold text-blue-700 text-center"
+            href="#"
+            >HéctorMed Online</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <li class="flex items-center">
+              <%= link_to 'Lista de Productos', products_path, class: "text-white px-1 mx-1 hover:text-blue-700" %>
+            </li>
+            <li class="flex items-center">
+                <%= link_to 'Añadir Producto', new_product_path, class: "text-white px-1 mx-1 hover:text-blue-700" if Current.user %>
+            </li>
+            <li class="flex items-center">
+                <%= link_to 'Ver Categorias', categories_path, class: "text-white px-1 mx-1 hover:text-blue-700" if Current.user&.admin? %>
+            </li>
+            <li class="flex items-center">
+                <%= link_to 'Ver Favoritos', favorites_path, class: "text-white px-1 mx-1 hover:text-blue-700" if Current.user %>
+            </li>
+            <li class="flex items-center">
+                <%= link_to 'Registrarse', new_user_path, class: "text-white px-1 mx-1 hover:text-blue-700" unless Current.user %>
+            </li>
+            <li class="flex items-center">
+                <%= link_to 'Iniciar Sesion', new_session_path, class: "text-white px-1 mx-1 hover:text-blue-700" unless Current.user %>
+            </li>
+            <li class="flex items-center">
+                <%= link_to 'Cerrar Sesion', session_path(Current.user.id), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: '¿Quiere salir de la sesion?'
+                }, class: "text-white px-1 mx-1 hover:text-blue-700" if Current.user %>
+            </li>
+          </ul>
+        </div>
+      </div>
+</nav>
+
+
+
+
+<%# el codigo dentro del if es basicamente para que no les aparezcan esos botones de opciones si no tienen su sesion activa %>
+<%# el codigo dentro del unless es para que desaparezcan esas opciones cuando ya se inicio sesion %>

@@ -1,0 +1,42 @@
+<%= turbo_frame_tag 'home' do %>
+    <div class="mt-14">
+                <h1 class="text-center p-2 font-bold text-lg">Productos: <%= @products.count %> </h1>
+                        <%# La variable que va entre los palitos puede ser cualquiera, solo le estamos indicando que ahi se guardará los datos de la db %>
+
+                 <%# Para quitar las filtraciones y poner "todos los productos" %>
+
+    <%= form_with url: products_path, method: :get do |form| %>
+
+        <div class="grid grid-cols-2 gap-4 p-4 lg:grid-cols-4">
+            <%= form.text_field 'query', placeholder: 'Buscar producto', onChange: 'This.form.requestSubmit()', value: params[:query] %>
+
+            <%= form.select 'order_by', options_for_select([['Recientes', 'newest'], ['Mas Caros', 'expensive'], ['Mas Baratos', 'cheapest']], params[:order_by]), {}, {onChange: 'this.form.requestSubmit()'} %>
+
+            <%= form.number_field 'min_price', placeholder: 'Precio Minimo', onChange: 'this.form.requestSubmit()', value: params[:min_price] %>
+
+            <%= form.number_field 'max_price', placeholder: 'Precio Máximo', onChange: 'this.form.requestSubmit()', value: params[:max_price] %>
+    <%# ESTO ES PARA QUE AL ENTRAR A LAS CATEGORIAS Y FILTRES POR PRECIO O ANTIGUEDAD, NO SE BORRE EL FILTRO, QUITAR ESTA LINEA DE CODIGO PARA COMPORBAR %>
+        </div>
+        <%= hidden_field_tag :category_id, params[:category_id] %>
+    <% end %>
+
+    <div class="grid grid-cols-1 text-center font-bold p-4 mt-2 lg:grid-cols-4">
+        <%= link_to 'Todos los productos' ,products_path, class: 'bg-black text-white p-2 m-2 rounded hover:text-blue-700' %>
+        <%= render partial: 'category', collection: @categories %>
+    </div>
+
+
+
+        <%= turbo_frame_tag :products do %>
+
+        <%# Contenedor padre %>
+            <%= turbo_frame_tag "products-#{@pagy.page}", class: 'grid grid-cols-2 gap-4 p-2 lg:grid-cols-4' do %>
+                <%= render partial: 'product', collection: @products %>
+                <%# el simbolo de igual representa que se va a imprimir en pantalla %>
+                    <%= turbo_frame_tag "products-#{@pagy.next}", class: 'grid grid-cols-2 gap-4 p-2 lg:grid-cols-4', src: pagy_url_for(@pagy, @pagy.next), loading: :lazy if @pagy.next  %>
+                    <%# el pag.next dentro del if| lo que hace es que no se cargue todo eso a menos que lo requiera %>
+                    <%# esto lo que hace es respetar todos los filtros que teniamos puestos y seguir imprimiendo mas paginas respetando las que ya hay %>
+            <% end %>
+    <% end %>
+    </div>
+<% end %>

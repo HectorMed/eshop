@@ -1,0 +1,57 @@
+<%# DRY, DONT REPEAT YOURSELF %>
+
+<%= form_with model: @product do |form|  %>
+    <% @product.errors.full_messages.each do |error|  %>
+        <div>
+            <%= error  %>
+        </div>
+    <% end %>
+
+    <section class="absolute w-full h-full ">
+
+        <div class="container mx-auto px-4 h-full">
+            <div class="flex content-center items-center justify-center h-full">
+                <div class="w-full lg:w-4/12 px-4">
+
+                    <div class="flex-auto px-4 lgpx-10 py-10 pt-0">
+                        <%# Elementos del form(inputs,labels) %>
+                        <div class="relative w-full mb-3">
+                            <%= form.label 'Titulo', class: 'block uppercase text-gray-700 text-xs font-bold mb-2' %>
+                            <%= form.text_field 'title', class: 'border-0 px-3 py-3 placeholder-gray-400 text-gray-700 gb-white rounded text-sm shadow focus:outline-none focus:ring w-full' %>
+                        </div>
+
+                        <div class="relative w-full mb-3">
+                            <%= form.label 'Descripcion', class: 'block uppercase text-gray-700 text-xs font-bold mb-2' %>
+                            <%= form.text_area 'description', class: 'border-0 px-3 py-3 placeholder-gray-400 text-gray-700 gb-white rounded text-sm shadow focus:outline-none focus:ring w-full' %>
+                        </div>
+
+                        <div class="relative w-full mb-3">
+                            <%= form.label 'Precio', class: 'block uppercase text-gray-700 text-xs font-bold mb-2' %>
+                            <%= form.number_field 'price', class: 'border-0 px-3 py-3 placeholder-gray-400 text-gray-700 gb-white rounded text-sm shadow focus:outline-none focus:ring w-full' %>
+                        </div>
+
+                        <div class="relative w-full mb-3">
+                            <%= form.label 'Foto', class: 'block uppercase text-gray-700 text-xs font-bold mb-2' %>
+                            <%= form.file_field 'photo', class: 'border-0 px-3 py-3 placeholder-gray-400 text-gray-700 gb-white rounded text-sm shadow focus:outline-none focus:ring w-full' %>
+                        </div>     
+
+                        <div class="relative w-full mb-3">
+                            <%= form.label 'Categoria', class: 'block uppercase text-gray-700 text-xs font-bold mb-2' %>
+                            <%= form.collection_select :category_id, Category.all.order(name: :asc), :id, :name, {}, { class: 'border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full' } %>
+                        </div>
+
+                        <div class="text-center mt-6">
+                            <%= form.submit 'Capturar Producto', class: 'bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full' %>
+                        </div>
+                    </div>
+                
+                </div>
+                                
+            </div>
+
+        </div>
+
+    </section>
+
+<% end %>
+
